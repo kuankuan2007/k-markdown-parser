@@ -1,0 +1,32 @@
+{
+  "name": "@kuankuan/k-markdown-parser",
+  "version": "2.0.1",
+  "description": "This module is an extension to the ECMAScript specification that provides additional functionality without relying on any runtime.",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "eslint src/**/* --fix",
+    "test": "node command/test.mjs",
+    "build": "tsc && tsc-alias"
+  },
+  "author": "kuankuan",
+  "license": "MulanPSL-2.0",
+  "types": "types/index.d.ts",
+  "devDependencies": {
+    "@kuankuan/eslint-2024": "^1.0.3",
+    "@rushstack/eslint-patch": "^1.10.1",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/mysql": "^2.15.26",
+    "@typescript-eslint/eslint-plugin": "^7.5.0",
+    "@typescript-eslint/parser": "^7.5.0",
+    "esbuild": "^0.20.2",
+    "eslint": "^8.57.0",
+    "tsc-alias": "^1.8.10",
+    "typescript": "^5.4.3"
+  },
+  "files": [
+    "dist",
+    "types"
+  ],
+  "type": "module",
+  "keywords": []
+}
