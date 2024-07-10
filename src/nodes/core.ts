@@ -19,3 +19,7 @@ export class KMarkdownOrderedListNode extends KMarkdownNode<Record<string, never
 export class KMarkdownOrderedListItemNode extends KMarkdownNode<{
   indexInWriting: number;
 }> {}
+export class KMarkdownXMLNode extends KMarkdownNode<{
+  name: string;
+  attributes: Record<string, string>;
+}> {}

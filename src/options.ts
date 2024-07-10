@@ -6,11 +6,13 @@ import { FullOption, Option } from './types.js';
 import KMarkdownParagraphSyntax from './syntaxes/paragraph.js';
 import KMarkdownBoldSyntax from './syntaxes/bold.js';
 import { KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax } from './syntaxes/list.js';
+import KMarkdownXMLBlockSyntax from './syntaxes/xml.js';
 
 export const tagStarterSelfReplaceName = Symbol('tagStarterSelfReplaceName');
 export type TagStarterSelfReplaceName = typeof tagStarterSelfReplaceName;
 export const defaultSyntaxes = [
   KMarkdownCodeBlockSyntax,
+  KMarkdownXMLBlockSyntax,
   KMarkdownTitleSyntax,
   KMarkdownSegmentationSyntax,
   KMarkdownUnorderedListSyntax,
@@ -61,6 +63,7 @@ const defaultNodeMap = {
   'unordered-list-item': coreNodes.KMarkdownUnorderedListItemNode,
   'ordered-list': coreNodes.KMarkdownOrderedListNode,
   'ordered-list-item': coreNodes.KMarkdownOrderedListItemNode,
+  xml: coreNodes.KMarkdownXMLNode,
 } as const;
 export const defaultOptions: FullOption = {
   syntaxes: defaultSyntaxes,

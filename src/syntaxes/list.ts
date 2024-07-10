@@ -37,7 +37,7 @@ const KMarkdownOrderedListSyntax: KMarkdownSyntax = {
       const indent = value[1];
 
       const content = [
-        ...text.matchAll(new RegExp(`^${indent}(\\d+)\\.(?:(?!^${indent}\\d+\\.).)+`, 'gm')),
+        ...text.matchAll(new RegExp(`^${indent}(\\d+)\\.(?:(?!^${indent}\\d+\\.).)+`, 'gms')),
       ].map((itemValue) => {
         return {
           name: 'ordered-list-item',

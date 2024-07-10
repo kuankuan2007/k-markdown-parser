@@ -162,3 +162,21 @@ import '@kuankuan/assist-2024';
 1. aaa
 2. bbb
 3. ccc
+  1. aaa
+  2. bbb
+
+<aaa lang="zh-CN">
+  <vvv>
+    <cde charset="UTF-8" />
+  </vvv>
+  <a>
+    ccc
+    <ade a="b">
+        aaa
+        <img src=aaa alt="" ccc>
+        bbb
+    </ade>
+  </a>
+  ddd
+</aaa>
+
