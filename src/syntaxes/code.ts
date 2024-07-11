@@ -19,24 +19,20 @@ const KMarkdownCodeBlockSyntax: KMarkdownSyntax = {
     });
   },
 };
-const KMarkdownInlineCodeSyntax: KMarkdownSyntax = {
-  name: 'title',
+const KMarkdownCodeInlineSyntax: KMarkdownSyntax = {
+  name: 'code-inline',
   matcher(text) {
-    const matcher = /^(#+)\s*([^{\n#]+)[\s#]*(?:\{([^}\n]+)\})?\s*\n$/gm;
+    const matcher = /`[^`]+`/gm;
     return [...text.matchAll(matcher)].map((value) => {
       return {
         startIndex: value.index,
         length: value[0].length,
         node: {
-          name: 'title',
-          content: [value[2]],
-          option: {
-            level: value[1].length,
-            id: value[3],
-          },
+          name: 'code-inline',
+          content: [value[0]],
         },
       };
     });
   },
 };
-export { KMarkdownCodeBlockSyntax, KMarkdownInlineCodeSyntax };
+export { KMarkdownCodeBlockSyntax, KMarkdownCodeInlineSyntax };

@@ -18,6 +18,8 @@ export interface KMarkdownNodeCreateOptions {
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class KMarkdownNode<T extends Record<string, any>> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: symbol]: any;
   content: KMarkdownNodeContent;
   args: T;
   _canParseSubContent: boolean = true;
@@ -30,7 +32,7 @@ export class KMarkdownNode<T extends Record<string, any>> {
 export type KMarkdownNodeContent = (string | KMarkdownNode<Record<string, any>>)[];
 
 export type Option = Readonly<{
-  syntaxes?: Readonly<KMarkdownSyntax[]>;
+  syntaxes?: Readonly<Readonly<KMarkdownSyntax[]>[]>;
   replacerTagStart?: string;
   replacerTagMap?: Readonly<{
     [key: symbol]: string;

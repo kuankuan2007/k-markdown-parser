@@ -180,3 +180,5 @@ import '@kuankuan/assist-2024';
   ddd
 </aaa>
 
+a^b^c
+

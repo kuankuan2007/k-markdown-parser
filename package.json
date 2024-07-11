@@ -1,12 +1,16 @@
 {
   "name": "@kuankuan/k-markdown-parser",
-  "version": "2.0.1",
-  "description": "This module is an extension to the ECMAScript specification that provides additional functionality without relying on any runtime.",
+  "version": "1.0.0",
+  "description": "a Markdown parser",
   "main": "dist/index.js",
   "scripts": {
     "lint": "eslint src/**/* --fix",
     "test": "node command/test.mjs",
     "build": "tsc && tsc-alias"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kuankuan2007/k-markdown-parser.git"
   },
   "author": "kuankuan",
   "license": "MulanPSL-2.0",
@@ -28,5 +32,9 @@
     "types"
   ],
   "type": "module",
-  "keywords": []
+  "keywords": [
+    "markdown",
+    "parser",
+    "kuankuan"
+  ]
 }
