@@ -1,7 +1,7 @@
 import { KMarkdownCodeBlockSyntax, KMarkdownCodeInlineSyntax } from './syntaxes/code.js';
 import KMarkdownSegmentationSyntax from './syntaxes/segmentation.js';
 import KMarkdownQuoteSyntax from './syntaxes/quote.js';
-import KMarkdownTitleSyntax from './syntaxes/title.js';
+import { KMarkdownWellTitleSyntax, KMarkdownGaplineTitleSyntax } from './syntaxes/title.js';
 import { FullOption, Option } from './types.js';
 import KMarkdownParagraphSyntax from './syntaxes/paragraph.js';
 import { KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax } from './syntaxes/list.js';
@@ -15,13 +15,15 @@ import {
   KMarkdownSubscriptSyntax,
   KMarkdownSuperscriptSyntax,
 } from './syntaxes/fontStyle.js';
+import KMarkdownLineBetweenSyntax from './syntaxes/lineBetween.js';
 
 export const tagStarterSelfReplaceName = Symbol('tagStarterSelfReplaceName');
 export type TagStarterSelfReplaceName = typeof tagStarterSelfReplaceName;
 export const defaultSyntaxes = [
   [KMarkdownCodeBlockSyntax, KMarkdownXMLBlockSyntax],
-  [KMarkdownTitleSyntax, KMarkdownSegmentationSyntax],
+  [KMarkdownWellTitleSyntax, KMarkdownGaplineTitleSyntax, KMarkdownSegmentationSyntax],
   [
+    KMarkdownLineBetweenSyntax,
     KMarkdownUnorderedListSyntax,
     KMarkdownOrderedListSyntax,
     KMarkdownQuoteSyntax,
@@ -88,6 +90,7 @@ const defaultNodeMap = {
   superscript: coreNodes.KMarkdownSuperscriptNode,
   'delete-line': coreNodes.KMarkdownDeleteLineNode,
   'code-inline': coreNodes.KMarkdownCodeInlineNode,
+  'line-between': coreNodes.KMarkdownLineBetweenNode,
 } as const;
 export const defaultOptions: FullOption = {
   syntaxes: defaultSyntaxes,

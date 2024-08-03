@@ -39,3 +39,6 @@ export class KMarkdownItalicNode extends KMarkdownNode<Record<string, never>> {}
 export class KMarkdownSuperscriptNode extends KMarkdownNode<Record<string, never>> {}
 export class KMarkdownSubscriptNode extends KMarkdownNode<Record<string, never>> {}
 export class KMarkdownDeleteLineNode extends KMarkdownNode<Record<string, never>> {}
+export class KMarkdownLineBetweenNode extends KMarkdownNode<Record<string, never>> {
+  _canParseSubContent = false;
+}
