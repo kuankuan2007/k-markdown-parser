@@ -23,6 +23,7 @@ export class KMarkdownNode<T extends Record<string, any>> {
   content: KMarkdownNodeContent;
   args: T;
   _canParseSubContent: boolean = true;
+  readonly id: string='_SOURCE_CLASS';
   constructor(content: KMarkdownNodeContent, args: T) {
     this.content = content;
     this.args = args;
