@@ -9,6 +9,8 @@ import KMarkdownXMLBlockSyntax from './syntaxes/xml.js';
 import KMarkdownImageSyntax from './syntaxes/image.js';
 import KMarkdownLinkSyntax from './syntaxes/link.js';
 import type { KMarkdownNode } from './types.js';
+import * as coreNodes from './nodes/core.js';
+
 import {
   KMarkdownBoldSyntax,
   KMarkdownDeleteLineSyntax,
@@ -73,31 +75,28 @@ export const defaultReplacerTagMap = {
 } as const;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export let defaultNodeMap: Record<string, typeof KMarkdownNode<Record<string, any>>> = {};
-(async () => {
-  const coreNodes = await import('./nodes/core.js');
-  defaultNodeMap = {
-    root: coreNodes.KMarkdownRootNode,
-    title: coreNodes.KMarkdownTitleNode,
-    'code-block': coreNodes.KMarkdownCodeBlockNode,
-    'quote-block': coreNodes.KMarkdownQuoteBlockNode,
-    paragraph: coreNodes.KMarkdownParagraphNode,
-    'unordered-list': coreNodes.KMarkdownUnorderedListNode,
-    'unordered-list-item': coreNodes.KMarkdownUnorderedListItemNode,
-    'ordered-list': coreNodes.KMarkdownOrderedListNode,
-    'ordered-list-item': coreNodes.KMarkdownOrderedListItemNode,
-    xml: coreNodes.KMarkdownXMLNode,
-    image: coreNodes.KMarkdownImageNode,
-    link: coreNodes.KMarkdownLinkNode,
-    bold: coreNodes.KMarkdownBoldNode,
-    italic: coreNodes.KMarkdownItalicNode,
-    subscript: coreNodes.KMarkdownSubscriptNode,
-    superscript: coreNodes.KMarkdownSuperscriptNode,
-    'delete-line': coreNodes.KMarkdownDeleteLineNode,
-    'code-inline': coreNodes.KMarkdownCodeInlineNode,
-    'line-between': coreNodes.KMarkdownLineBetweenNode,
-  };
-})();
+export const defaultNodeMap: Record<string, typeof KMarkdownNode<Record<string, any>>> = {
+  root: coreNodes.KMarkdownRootNode,
+  title: coreNodes.KMarkdownTitleNode,
+  'code-block': coreNodes.KMarkdownCodeBlockNode,
+  'quote-block': coreNodes.KMarkdownQuoteBlockNode,
+  paragraph: coreNodes.KMarkdownParagraphNode,
+  'unordered-list': coreNodes.KMarkdownUnorderedListNode,
+  'unordered-list-item': coreNodes.KMarkdownUnorderedListItemNode,
+  'ordered-list': coreNodes.KMarkdownOrderedListNode,
+  'ordered-list-item': coreNodes.KMarkdownOrderedListItemNode,
+  xml: coreNodes.KMarkdownXMLNode,
+  image: coreNodes.KMarkdownImageNode,
+  link: coreNodes.KMarkdownLinkNode,
+  bold: coreNodes.KMarkdownBoldNode,
+  italic: coreNodes.KMarkdownItalicNode,
+  subscript: coreNodes.KMarkdownSubscriptNode,
+  superscript: coreNodes.KMarkdownSuperscriptNode,
+  'delete-line': coreNodes.KMarkdownDeleteLineNode,
+  'code-inline': coreNodes.KMarkdownCodeInlineNode,
+  'line-between': coreNodes.KMarkdownLineBetweenNode,
+};
+
 export const defaultOptions: FullOption = {
   syntaxes: defaultSyntaxes,
   replacerTagStart: '¨',

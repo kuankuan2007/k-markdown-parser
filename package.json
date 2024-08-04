@@ -1,6 +1,6 @@
 {
   "name": "@kuankuan/k-markdown-parser",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "description": "a Markdown parser",
   "main": "dist/index.js",
   "scripts": {
@@ -14,7 +14,7 @@
   },
   "author": "kuankuan",
   "license": "MulanPSL-2.0",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "devDependencies": {
     "@kuankuan/eslint-2024": "^1.0.3",
     "@rushstack/eslint-patch": "^1.10.1",
@@ -28,8 +28,7 @@
     "typescript": "^5.4.3"
   },
   "files": [
-    "dist",
-    "types"
+    "dist"
   ],
   "type": "module",
   "keywords": [
