@@ -54,17 +54,25 @@ class KMarkdownParser {
             }
             newContent.push(i.substring(lastIndex));
           }
-          node.content = newContent.filter((i) => {
-            if (typeof i === 'string') {
-              return /\S/.test(i);
-            } else {
-              if (i._canParseSubContent && !i[isParsedTag]) {
-                i[isParsedTag] = true;
-                dfsParse(i, syntaxLevel);
+          node.content = newContent
+            .filter((i) => {
+              if (typeof i === 'string') {
+                return /\S/.test(i);
+              } else {
+                if (i._canParseSubContent && !i[isParsedTag]) {
+                  i[isParsedTag] = true;
+                  dfsParse(i, syntaxLevel);
+                }
+                return true;
               }
-              return true;
-            }
-          });
+            })
+            .map((i) => {
+              if (typeof i === 'string') {
+                return i.replace(/^\n*|\n*$/g, '');
+              } else {
+                return i;
+              }
+            });
         }
       }
     };

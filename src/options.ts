@@ -7,7 +7,7 @@ import KMarkdownParagraphSyntax from './syntaxes/paragraph.js';
 import { KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax } from './syntaxes/list.js';
 import KMarkdownXMLBlockSyntax from './syntaxes/xml.js';
 import KMarkdownImageSyntax from './syntaxes/image.js';
-import KMarkdownLinkSyntax from './syntaxes/link.js';
+import { KMarkdownLinkSyntax, KMarkdownAutoLinkSyntax } from './syntaxes/link.js';
 import type { KMarkdownNode } from './types.js';
 import * as coreNodes from './nodes/core.js';
 
@@ -41,6 +41,7 @@ export const defaultSyntaxes = [
     KMarkdownCodeInlineSyntax,
     KMarkdownImageSyntax,
     KMarkdownLinkSyntax,
+    KMarkdownAutoLinkSyntax,
   ],
 ] as const;
 export const defaultReplacerTagMap = {
@@ -102,6 +103,7 @@ export const defaultOptions: FullOption = {
   replacerTagStart: '¨',
   replacerTagMap: defaultReplacerTagMap,
   nodeMap: defaultNodeMap,
+  autoParseLink: true,
 } as const;
 export function createFullOptions(options: Option): FullOption {
   return {

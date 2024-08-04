@@ -43,5 +43,6 @@ export type Option = Readonly<{
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: typeof KMarkdownNode<Record<string, any>>;
   }>;
+  autoParseLink?: boolean;
 }>;
 export type FullOption = Required<Option>;

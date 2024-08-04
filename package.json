@@ -1,6 +1,6 @@
 {
   "name": "@kuankuan/k-markdown-parser",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "a Markdown parser",
   "main": "dist/index.js",
   "scripts": {

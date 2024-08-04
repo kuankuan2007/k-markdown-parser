@@ -34,7 +34,9 @@ export class KMarkdownImageNode extends KMarkdownNode<{
 export class KMarkdownLinkNode extends KMarkdownNode<{
   src: string;
   alt: string;
-}> {}
+}> {
+  _canParseSubContent = false;
+}
 export class KMarkdownItalicNode extends KMarkdownNode<Record<string, never>> {}
 export class KMarkdownSuperscriptNode extends KMarkdownNode<Record<string, never>> {}
 export class KMarkdownSubscriptNode extends KMarkdownNode<Record<string, never>> {}
