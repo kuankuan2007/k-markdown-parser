@@ -22,14 +22,14 @@ const KMarkdownCodeBlockSyntax: KMarkdownSyntax = {
 const KMarkdownCodeInlineSyntax: KMarkdownSyntax = {
   name: 'code-inline',
   matcher(text) {
-    const matcher = /`[^`]+`/gm;
+    const matcher = /`([^`]+)`/gm;
     return [...text.matchAll(matcher)].map((value) => {
       return {
         startIndex: value.index,
         length: value[0].length,
         node: {
           name: 'code-inline',
-          content: [value[0]],
+          content: [value[1]],
         },
       };
     });

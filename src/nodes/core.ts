@@ -56,7 +56,7 @@ export class KMarkdownImageNode extends KMarkdownNode<{
   id = 'image';
 }
 export class KMarkdownLinkNode extends KMarkdownNode<{
-  src: string;
+  href: string;
   alt: string;
 }> {
   _canParseSubContent = false;
