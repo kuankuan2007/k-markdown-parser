@@ -3,7 +3,6 @@ import KMarkdownSegmentationSyntax from './syntaxes/segmentation.js';
 import KMarkdownQuoteSyntax from './syntaxes/quote.js';
 import { KMarkdownWellTitleSyntax, KMarkdownGaplineTitleSyntax } from './syntaxes/title.js';
 import { FullOption, Option } from './types.js';
-import KMarkdownParagraphSyntax from './syntaxes/paragraph.js';
 import { KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax } from './syntaxes/list.js';
 import KMarkdownXMLBlockSyntax from './syntaxes/xml.js';
 import KMarkdownImageSyntax from './syntaxes/image.js';
@@ -19,29 +18,30 @@ import {
   KMarkdownSuperscriptSyntax,
 } from './syntaxes/fontStyle.js';
 import KMarkdownLineBetweenSyntax from './syntaxes/lineBetween.js';
+import { KMarkdownLatexBlockSyntax, KMarkdownLatexInlineSyntax } from './syntaxes/latex.js';
+import KMarkdownEmojiSyntax from './syntaxes/emoji.js';
+import KMarkdownParagraphSyntax from './syntaxes/paragraph.js';
+import KMarkdownTaskListSyntax from './syntaxes/task-list.js';
 
 export const tagStarterSelfReplaceName = Symbol('tagStarterSelfReplaceName');
 export type TagStarterSelfReplaceName = typeof tagStarterSelfReplaceName;
 export const defaultSyntaxes = [
-  [KMarkdownCodeBlockSyntax, KMarkdownXMLBlockSyntax],
-  [KMarkdownWellTitleSyntax, KMarkdownGaplineTitleSyntax, KMarkdownSegmentationSyntax],
+  [KMarkdownCodeBlockSyntax, KMarkdownLatexBlockSyntax, KMarkdownXMLBlockSyntax],
+  [KMarkdownWellTitleSyntax, KMarkdownGaplineTitleSyntax, KMarkdownLineBetweenSyntax],
+  [KMarkdownQuoteSyntax, KMarkdownSegmentationSyntax, KMarkdownParagraphSyntax],
+  [KMarkdownTaskListSyntax, KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax],
   [
-    KMarkdownLineBetweenSyntax,
-    KMarkdownUnorderedListSyntax,
-    KMarkdownOrderedListSyntax,
-    KMarkdownQuoteSyntax,
-    KMarkdownParagraphSyntax,
-  ],
-  [
+    KMarkdownCodeInlineSyntax,
+    KMarkdownLatexInlineSyntax,
     KMarkdownBoldSyntax,
     KMarkdownDeleteLineSyntax,
     KMarkdownItalicSyntax,
     KMarkdownSubscriptSyntax,
     KMarkdownSuperscriptSyntax,
-    KMarkdownCodeInlineSyntax,
     KMarkdownImageSyntax,
     KMarkdownLinkSyntax,
     KMarkdownAutoLinkSyntax,
+    KMarkdownEmojiSyntax,
   ],
 ] as const;
 export const defaultReplacerTagMap = {
@@ -81,6 +81,7 @@ export const defaultNodeMap: Record<string, typeof KMarkdownNode<Record<string, 
   title: coreNodes.KMarkdownTitleNode,
   'code-block': coreNodes.KMarkdownCodeBlockNode,
   'quote-block': coreNodes.KMarkdownQuoteBlockNode,
+  'quote-item': coreNodes.KMarkdownQuoteItemNode,
   paragraph: coreNodes.KMarkdownParagraphNode,
   'unordered-list': coreNodes.KMarkdownUnorderedListNode,
   'unordered-list-item': coreNodes.KMarkdownUnorderedListItemNode,
@@ -96,6 +97,11 @@ export const defaultNodeMap: Record<string, typeof KMarkdownNode<Record<string, 
   'delete-line': coreNodes.KMarkdownDeleteLineNode,
   'code-inline': coreNodes.KMarkdownCodeInlineNode,
   'line-between': coreNodes.KMarkdownLineBetweenNode,
+  'latex-block': coreNodes.KMarkdownLatexBlockNode,
+  'latex-inline': coreNodes.KMarkdownLatexInlineNode,
+  emoji: coreNodes.KMarkdownEmojiNode,
+  'task-list': coreNodes.KMarkdownTaskListNode,
+  'task-list-item': coreNodes.KMarkdownTaskListItemNode,
 };
 
 export const defaultOptions: FullOption = {

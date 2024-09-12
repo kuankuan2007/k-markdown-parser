@@ -26,7 +26,7 @@ const KMarkdownItalicSyntax: KMarkdownSyntax = {
         length: value[0].length,
         node: {
           name: 'italic',
-          content: [value[1]],
+          content: [value[1]||value[2]],
         },
       };
     });

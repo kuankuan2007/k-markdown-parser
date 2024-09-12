@@ -2,6 +2,7 @@ import { FullOption, KMarkdownNode } from '@/types.js';
 
 export class KMarkdownRootNode extends KMarkdownNode<{ createOption: FullOption }> {
   id = 'root';
+  _paragraph = 'paragraph';
 }
 export class KMarkdownTitleNode extends KMarkdownNode<{
   id?: string;
@@ -19,8 +20,20 @@ export class KMarkdownCodeInlineNode extends KMarkdownNode<Record<string, never>
   _canParseSubContent = false;
   id = 'code-inline';
 }
+export class KMarkdownLatexBlockNode extends KMarkdownNode<Record<string, never>> {
+  _canParseSubContent = false;
+  id = 'latex-block';
+}
+export class KMarkdownLatexInlineNode extends KMarkdownNode<Record<string, never>> {
+  _canParseSubContent = false;
+  id = 'latex-inline';
+}
 export class KMarkdownQuoteBlockNode extends KMarkdownNode<Record<string, never>> {
   id = 'quote-block';
+  _paragraph = 'quote-item';
+}
+export class KMarkdownQuoteItemNode extends KMarkdownNode<Record<string, never>> {
+  id = 'quote-item';
 }
 export class KMarkdownBoldNode extends KMarkdownNode<Record<string, never>> {
   id = 'bold';
@@ -77,4 +90,18 @@ export class KMarkdownDeleteLineNode extends KMarkdownNode<Record<string, never>
 export class KMarkdownLineBetweenNode extends KMarkdownNode<Record<string, never>> {
   id = 'line-between';
   _canParseSubContent = false;
+}
+export class KMarkdownEmojiNode extends KMarkdownNode<{
+  name: string;
+}> {
+  id = 'emoji';
+  _canParseSubContent = false;
+}
+export class KMarkdownTaskListNode extends KMarkdownNode<Record<string, never>> {
+  id = 'task-list';
+}
+export class KMarkdownTaskListItemNode extends KMarkdownNode<{
+  finished: boolean;
+}> {
+  id = 'task-list-item';
 }

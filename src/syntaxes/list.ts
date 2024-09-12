@@ -7,10 +7,9 @@ const KMarkdownUnorderedListSyntax: KMarkdownSyntax = {
     return [...text.matchAll(matcher)].map((value) => {
       const indent = value[1];
       const usedTags = value[2];
-
       const content = [
         ...text.matchAll(
-          new RegExp(`^${indent}\\${usedTags}(?:(?!^${indent}\\${usedTags}).)+`, 'gm')
+          new RegExp(`^${indent}\\${usedTags}(?:(?!^${indent}\\${usedTags}).)+`, 'gms')
         ),
       ].map((itemValue) => {
         return {

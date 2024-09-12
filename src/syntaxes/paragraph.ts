@@ -5,14 +5,16 @@ const KMarkdownParagraphSyntax: KMarkdownSyntax = {
   name: 'paragraph',
   matcher(text, _option, parentNode) {
     if (parentNode instanceof KMarkdownRootNode) {
-      return [{
-        startIndex: 0,
-        length: text.length,
-        node: {
-          name: 'paragraph',
-          content: [text],
+      return [
+        {
+          startIndex: 0,
+          length: text.length,
+          node: {
+            name: 'paragraph',
+            content: [text],
+          },
         },
-      }];
+      ];
     }
     return [];
   },
