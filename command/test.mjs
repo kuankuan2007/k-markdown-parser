@@ -1,12 +1,21 @@
-
-await import('./build.mjs');
+// @ts-check
 import esbuild from 'esbuild';
+import path from 'path';
 
-esbuild.buildSync({
-  entryPoints: ['test/src/index.ts'],
-  outdir: 'test/dist',
-  sourcemap: true,
-});
+const rootPath = path.resolve(process.cwd());
 
-await import('../test/dist/index.js');
-console.log('[debug] index.js loaded');
+(async () => {
+  const tsconfig = path.resolve(rootPath, './tsconfig.json');
+  await esbuild.build({
+    entryPoints: [path.resolve(rootPath, './test/src/index.ts')],
+    tsconfig: tsconfig,
+    outdir: path.resolve(rootPath, './test/dist'),
+    bundle: true,
+    platform: 'node',
+    target: 'node21',
+    format: 'esm',
+    sourcemap: true,
+    outExtension: { '.js': '.mjs' },
+  });
+  await import('../test/dist/index.mjs');
+})();

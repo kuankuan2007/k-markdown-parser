@@ -1,8 +1,6 @@
-import eslintKuankuanConfig from '@kuankuan/eslint-2024';
+// @ts-check
 
-export default [
-  ...await eslintKuankuanConfig.typescript,
-  {
-    ignores: ['dist', 'test/dist'],
-  }
-];
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+
+export default tseslint.config(eslint.configs.recommended, tseslint.configs.recommended);
