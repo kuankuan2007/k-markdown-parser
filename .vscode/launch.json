@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch Program",
+      "name": "Run Test",
       "program": "${workspaceFolder}/command/test.mjs",
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],

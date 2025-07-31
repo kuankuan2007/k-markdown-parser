@@ -195,3 +195,15 @@ bbb
 ____
 
 https://kuankuan.site/
+
+| Syntax    | Description |
+| --------- | ----------- | ----------------- |
+| Header    | Title       |
+| Paragraph | Text        |
+| **bold**  | text        | ~~strikethrough~~ |
+
+| Syntax    | Description |   Test Text |
+| :-------- | :---------: | ----------: |
+| Header    |    Title    | Here's this |
+| Paragraph |    Text     |    And more |
+| **bold**  | text        | ~~strikethrough~~ |

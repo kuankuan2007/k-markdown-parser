@@ -105,3 +105,16 @@ export class KMarkdownTaskListItemNode extends KMarkdownNode<{
 }> {
   id = 'task-list-item';
 }
+export class KMarkdownTableNode extends KMarkdownNode<Record<string, never>> {
+  id = 'table';
+}
+export class KMarkdownTableRowNode extends KMarkdownNode<{
+  isHeader: boolean;
+}> {
+  id = 'table-row';
+}
+export class KMarkdownTableCellNode extends KMarkdownNode<{
+  align?: 'left' | 'center' | 'right';
+}> {
+  id = 'table-cell';
+}

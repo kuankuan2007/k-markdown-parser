@@ -22,14 +22,26 @@ import { KMarkdownLatexBlockSyntax, KMarkdownLatexInlineSyntax } from './syntaxe
 import KMarkdownEmojiSyntax from './syntaxes/emoji.js';
 import KMarkdownParagraphSyntax from './syntaxes/paragraph.js';
 import KMarkdownTaskListSyntax from './syntaxes/task-list.js';
+import { KMarkdownTableSyntax } from './syntaxes/table.js';
 
 export const tagStarterSelfReplaceName = Symbol('tagStarterSelfReplaceName');
 export type TagStarterSelfReplaceName = typeof tagStarterSelfReplaceName;
 export const defaultSyntaxes = [
   [KMarkdownCodeBlockSyntax, KMarkdownLatexBlockSyntax, KMarkdownXMLBlockSyntax],
-  [KMarkdownWellTitleSyntax, KMarkdownGaplineTitleSyntax, KMarkdownLineBetweenSyntax],
-  [KMarkdownQuoteSyntax, KMarkdownSegmentationSyntax, KMarkdownParagraphSyntax],
-  [KMarkdownTaskListSyntax, KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax],
+  [
+    KMarkdownWellTitleSyntax,
+    KMarkdownGaplineTitleSyntax,
+    KMarkdownLineBetweenSyntax,
+    KMarkdownSegmentationSyntax,
+  ],
+  [
+    KMarkdownQuoteSyntax,
+    KMarkdownTableSyntax,
+    KMarkdownTaskListSyntax,
+    KMarkdownUnorderedListSyntax,
+    KMarkdownOrderedListSyntax,
+    KMarkdownParagraphSyntax,
+  ],
   [
     KMarkdownCodeInlineSyntax,
     KMarkdownLatexInlineSyntax,
@@ -102,6 +114,9 @@ export const defaultNodeMap: Record<string, typeof KMarkdownNode<Record<string, 
   emoji: coreNodes.KMarkdownEmojiNode,
   'task-list': coreNodes.KMarkdownTaskListNode,
   'task-list-item': coreNodes.KMarkdownTaskListItemNode,
+  table: coreNodes.KMarkdownTableNode,
+  'table-row': coreNodes.KMarkdownTableRowNode,
+  'table-cell': coreNodes.KMarkdownTableCellNode,
 };
 
 export const defaultOptions: FullOption = {

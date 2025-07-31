@@ -5,12 +5,13 @@ export interface KMarkdownSyntax {
     option: FullOption,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     parentNode: KMarkdownNode<Record<string, any>>
-  ) => {
-    startIndex: number;
-    length: number;
-    node?: KMarkdownNodeCreateOptions;
-  }[];
+  ) => KMarkdownSyntaxMatchResult[];
 }
+export type KMarkdownSyntaxMatchResult = {
+  startIndex: number;
+  length: number;
+  node?: KMarkdownNodeCreateOptions;
+};
 export interface KMarkdownNodeCreateOptions {
   content: (string | KMarkdownNodeCreateOptions)[];
   name: string;
