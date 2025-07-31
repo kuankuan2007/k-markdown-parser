@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/kuankuan2007/k-markdown-parser.git"
   },
+  "homepage": "https://github.com/kuankuan2007/k-markdown-parser",
+  "bugs": {
+    "url": "https://github.com/kuankuan2007/k-markdown-parser/issues"
+  },
   "author": "kuankuan",
   "license": "MulanPSL-2.0",
   "types": "dist/index.d.ts",
