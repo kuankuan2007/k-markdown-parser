@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint src/**/*",
     "lint:fix": "elint src/**/* --fix",
-    "test": "node command/test.mjs",
-    "build": "node command/build.mjs"
+    "test": "node tools/test.mjs",
+    "build": "node tools/build.mjs"
   },
   "repository": {
     "type": "git",
