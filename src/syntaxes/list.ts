@@ -1,9 +1,9 @@
-import { KMarkdownSyntax } from '@/types.js';
+import { KMarkdownSyntax } from '../types.js';
 
 const KMarkdownUnorderedListSyntax: KMarkdownSyntax = {
   name: 'unordered-list',
   matcher(text) {
-    const matcher = /^(\s*)(-|\+).+/gms;
+    const matcher = /^(\s*)(-|\+)[^-+]+.+/gms;
     return [...text.matchAll(matcher)].map((value) => {
       const indent = value[1];
       const usedTags = value[2];

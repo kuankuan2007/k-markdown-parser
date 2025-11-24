@@ -1,4 +1,4 @@
-import { KMarkdownSyntax } from '@/types.js';
+import { KMarkdownSyntax } from '../types.js';
 
 const KMarkdownImageSyntax: KMarkdownSyntax = {
   name: 'image',

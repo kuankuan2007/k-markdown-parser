@@ -1,4 +1,4 @@
-import { KMarkdownNodeCreateOptions, KMarkdownSyntax } from '@/types.js';
+import { KMarkdownNodeCreateOptions, KMarkdownSyntax } from '../types.js';
 
 const KMarkdownXMLBlockSyntax: KMarkdownSyntax = {
   name: 'xml-block',

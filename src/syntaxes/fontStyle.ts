@@ -1,37 +1,7 @@
-import { KMarkdownSyntax } from '@/types.js';
+import {
+  KMarkdownSyntax,
+} from '../types.js';
 
-const KMarkdownBoldSyntax: KMarkdownSyntax = {
-  name: 'bold',
-  matcher(text) {
-    const matcher = /\*\*((?:(?!\*\*).)+)\*\*|__((?:(?!__).)+)__/gms;
-    return [...text.matchAll(matcher)].map((value) => {
-      return {
-        startIndex: value.index,
-        length: value[0].length,
-        node: {
-          name: 'bold',
-          content: [value[1]],
-        },
-      };
-    });
-  },
-};
-const KMarkdownItalicSyntax: KMarkdownSyntax = {
-  name: 'italic',
-  matcher(text) {
-    const matcher = /\*((?:(?!\*).)+)\*|_((?:(?!_).)+)_/gms;
-    return [...text.matchAll(matcher)].map((value) => {
-      return {
-        startIndex: value.index,
-        length: value[0].length,
-        node: {
-          name: 'italic',
-          content: [value[1]||value[2]],
-        },
-      };
-    });
-  },
-};
 const KMarkdownDeleteLineSyntax: KMarkdownSyntax = {
   name: 'delete-line',
   matcher(text) {
@@ -81,8 +51,6 @@ const KMarkdownSubscriptSyntax: KMarkdownSyntax = {
   },
 };
 export {
-  KMarkdownBoldSyntax,
-  KMarkdownItalicSyntax,
   KMarkdownDeleteLineSyntax,
   KMarkdownSuperscriptSyntax,
   KMarkdownSubscriptSyntax,

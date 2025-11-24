@@ -1,6 +1,6 @@
 {
   "name": "@kuankuan/k-markdown-parser",
-  "version": "1.1.0.post1",
+  "version": "1.1.0-post1",
   "description": "a Markdown parser",
   "main": "dist/index.js",
   "scripts": {
@@ -35,5 +35,15 @@
     "markdown",
     "parser",
     "kuankuan"
-  ]
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": {
+      "import": "./dist/*.js",
+      "types": "./dist/*.d.ts"
+    }
+  }
 }

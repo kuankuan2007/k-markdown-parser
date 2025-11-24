@@ -1,4 +1,4 @@
-import { KMarkdownSyntax } from '@/types.js';
+import { KMarkdownSyntax } from '../types.js';
 
 const KMarkdownTaskListSyntax: KMarkdownSyntax = {
   name: 'task-list',

@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "Run Test",
-      "program": "${workspaceFolder}/command/test.mjs",
+      "program": "${workspaceFolder}/tools/test.mjs",
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],
       "type": "node"

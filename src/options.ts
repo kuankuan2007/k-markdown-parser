@@ -6,14 +6,12 @@ import { FullOption, Option } from './types.js';
 import { KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax } from './syntaxes/list.js';
 import KMarkdownXMLBlockSyntax from './syntaxes/xml.js';
 import KMarkdownImageSyntax from './syntaxes/image.js';
-import { KMarkdownLinkSyntax, KMarkdownAutoLinkSyntax } from './syntaxes/link.js';
+import { KMarkdownLinkSyntax, KMarkdownAutoLinkSyntax, KMarkdownRawLinkSyntax } from './syntaxes/link.js';
 import type { KMarkdownNode } from './types.js';
 import * as coreNodes from './nodes/core.js';
 
 import {
-  KMarkdownBoldSyntax,
   KMarkdownDeleteLineSyntax,
-  KMarkdownItalicSyntax,
   KMarkdownSubscriptSyntax,
   KMarkdownSuperscriptSyntax,
 } from './syntaxes/fontStyle.js';
@@ -23,6 +21,8 @@ import KMarkdownEmojiSyntax from './syntaxes/emoji.js';
 import KMarkdownParagraphSyntax from './syntaxes/paragraph.js';
 import KMarkdownTaskListSyntax from './syntaxes/task-list.js';
 import { KMarkdownTableSyntax } from './syntaxes/table.js';
+import { KMarkdownBoldItalicSyntax } from './syntaxes/boldItalic.js';
+import { KMarkdownAutoEmailSyntax, KMarkdownRawEmailSyntax } from './syntaxes/email.js';
 
 export const tagStarterSelfReplaceName = Symbol('tagStarterSelfReplaceName');
 export type TagStarterSelfReplaceName = typeof tagStarterSelfReplaceName;
@@ -45,13 +45,15 @@ export const defaultSyntaxes = [
   [
     KMarkdownCodeInlineSyntax,
     KMarkdownLatexInlineSyntax,
-    KMarkdownBoldSyntax,
+    KMarkdownBoldItalicSyntax,
     KMarkdownDeleteLineSyntax,
-    KMarkdownItalicSyntax,
     KMarkdownSubscriptSyntax,
     KMarkdownSuperscriptSyntax,
     KMarkdownImageSyntax,
     KMarkdownLinkSyntax,
+    KMarkdownRawEmailSyntax,
+    KMarkdownRawLinkSyntax,
+    KMarkdownAutoEmailSyntax,
     KMarkdownAutoLinkSyntax,
     KMarkdownEmojiSyntax,
   ],
@@ -93,7 +95,6 @@ export const defaultNodeMap: Record<string, typeof KMarkdownNode<Record<string, 
   title: coreNodes.KMarkdownTitleNode,
   'code-block': coreNodes.KMarkdownCodeBlockNode,
   'quote-block': coreNodes.KMarkdownQuoteBlockNode,
-  'quote-item': coreNodes.KMarkdownQuoteItemNode,
   paragraph: coreNodes.KMarkdownParagraphNode,
   'unordered-list': coreNodes.KMarkdownUnorderedListNode,
   'unordered-list-item': coreNodes.KMarkdownUnorderedListItemNode,
@@ -102,6 +103,7 @@ export const defaultNodeMap: Record<string, typeof KMarkdownNode<Record<string, 
   xml: coreNodes.KMarkdownXMLNode,
   image: coreNodes.KMarkdownImageNode,
   link: coreNodes.KMarkdownLinkNode,
+  email: coreNodes.KMarkdownEmailNode,
   bold: coreNodes.KMarkdownBoldNode,
   italic: coreNodes.KMarkdownItalicNode,
   subscript: coreNodes.KMarkdownSubscriptNode,

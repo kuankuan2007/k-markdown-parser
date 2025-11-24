@@ -1,7 +1,7 @@
 import {
   KMarkdownSyntax,
   KMarkdownSyntaxMatchResult,
-} from '@/types.js';
+} from '../types.js';
 
 export const KMarkdownTableSyntax: KMarkdownSyntax = {
   name: 'table',

@@ -1,4 +1,4 @@
-import { KMarkdownSyntax } from '@/types.js';
+import { KMarkdownSyntax } from '../types.js';
 
 const KMarkdownLinkSyntax: KMarkdownSyntax = {
   name: 'link',
@@ -21,7 +21,7 @@ const KMarkdownLinkSyntax: KMarkdownSyntax = {
   },
 };
 const KMarkdownAutoLinkSyntax: KMarkdownSyntax = {
-  name: 'link',
+  name: 'auto-link',
   matcher(text, option) {
     if (!option.autoParseLink) {
       return [];
@@ -43,4 +43,24 @@ const KMarkdownAutoLinkSyntax: KMarkdownSyntax = {
     });
   },
 };
-export { KMarkdownLinkSyntax, KMarkdownAutoLinkSyntax };
+const KMarkdownRawLinkSyntax: KMarkdownSyntax = {
+  name: 'raw-link',
+  matcher(text) {
+    const matcher =
+      /<((((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?)>/g;
+    return [...text.matchAll(matcher)].map((value) => {
+      return {
+        startIndex: value.index,
+        length: value[0].length,
+        node: {
+          name: 'link',
+          content: [value[1]],
+          option: {
+            href: value[1],
+          },
+        },
+      };
+    });
+  },
+}
+export { KMarkdownLinkSyntax, KMarkdownRawLinkSyntax, KMarkdownAutoLinkSyntax };

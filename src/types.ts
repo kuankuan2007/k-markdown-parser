@@ -12,13 +12,14 @@ export type KMarkdownSyntaxMatchResult = {
   length: number;
   node?: KMarkdownNodeCreateOptions;
 };
+export type KMarkdownSyntaxMatchResultContent = (string | KMarkdownNodeCreateOptions)[];
 export interface KMarkdownNodeCreateOptions {
-  content: (string | KMarkdownNodeCreateOptions)[];
+  content: KMarkdownSyntaxMatchResultContent;
   name: string;
   option?: Record<string, unknown>;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export class KMarkdownNode<T extends Record<string, any>> {
+export class KMarkdownNode<T extends Record<string, any> = Record<string, any>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: symbol]: any;
   content: KMarkdownNodeContent;

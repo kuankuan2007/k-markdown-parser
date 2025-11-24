@@ -1,5 +1,5 @@
-import { KMarkdownRootNode } from '@/nodes/core.js';
-import { KMarkdownSyntax } from '@/types.js';
+import { KMarkdownRootNode } from '../nodes/core.js';
+import { KMarkdownSyntax } from '../types.js';
 
 const KMarkdownParagraphSyntax: KMarkdownSyntax = {
   name: 'paragraph',

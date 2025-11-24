@@ -1,4 +1,4 @@
-import { FullOption, KMarkdownNode } from '@/types.js';
+import { FullOption, KMarkdownNode } from '../types.js';
 
 export class KMarkdownRootNode extends KMarkdownNode<{ createOption: FullOption }> {
   id = 'root';
@@ -30,10 +30,6 @@ export class KMarkdownLatexInlineNode extends KMarkdownNode<Record<string, never
 }
 export class KMarkdownQuoteBlockNode extends KMarkdownNode<Record<string, never>> {
   id = 'quote-block';
-  _paragraph = 'quote-item';
-}
-export class KMarkdownQuoteItemNode extends KMarkdownNode<Record<string, never>> {
-  id = 'quote-item';
 }
 export class KMarkdownBoldNode extends KMarkdownNode<Record<string, never>> {
   id = 'bold';
@@ -117,4 +113,10 @@ export class KMarkdownTableCellNode extends KMarkdownNode<{
   align?: 'left' | 'center' | 'right';
 }> {
   id = 'table-cell';
+}
+export class KMarkdownEmailNode extends KMarkdownNode<{
+  email: string;
+}> {
+  _canParseSubContent = false;
+  id = 'email';
 }

@@ -1,5 +1,5 @@
 import { createFullOptions } from './options.js';
-import { inner2Markdown, inner2Plant, markdown2Inner } from './textConverter.js';
+import { inner2Markdown, markdown2Inner, inner2Plant } from './textConverter.js';
 import {
   FullOption,
   KMarkdownNode,
@@ -14,7 +14,7 @@ class KMarkdownParser {
     this.options = createFullOptions(options || {});
   }
   parse(text: string) {
-    text = markdown2Inner(text, this.options);
+    text = this.markdown2Inner(text);
     const root = this.createNode({
       name: 'root',
       content: [text],
@@ -68,7 +68,7 @@ class KMarkdownParser {
             })
             .map((i) => {
               if (typeof i === 'string') {
-                return i.replace(/^\n*|\n*$/g, '');
+                return i.replace(/^\n*/g, '');
               } else {
                 return i;
               }
@@ -90,11 +90,16 @@ class KMarkdownParser {
     }
     return new this.options.nodeMap[option.name](nodeContent, option.option || {});
   }
-  toPlant(text: string) {
-    return inner2Plant(text, this.options);
+  markdown2Inner(text: string) {
+    return markdown2Inner(text, this.options);
   }
-  toMarkdown(text: string) {
+  inner2Markdown(text: string) {
     return inner2Markdown(text, this.options);
+  }
+  inner2Plant(text: string) {
+    return inner2Plant(text, this.options);
   }
 }
 export default KMarkdownParser;
+
+export * from './types.js';

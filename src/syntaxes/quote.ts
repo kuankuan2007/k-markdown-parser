@@ -1,4 +1,4 @@
-import { KMarkdownSyntax } from '@/types.js';
+import { KMarkdownSyntax } from '../types.js';
 
 const KMarkdownQuoteSyntax: KMarkdownSyntax = {
   name: 'quote',
@@ -8,18 +8,12 @@ const KMarkdownQuoteSyntax: KMarkdownSyntax = {
       const content = value[0]
         .replaceAll(/^\s*>[^\S\n]*/gm, '')
         .replaceAll(/^\s*$/gm, '')
-        .split(/\n\n|\s{2,}\n/gm);
       return {
         startIndex: value.index,
         length: value[0].length,
         node: {
           name: 'quote-block',
-          content: content.map((value) => {
-            return {
-              name: 'quote-item',
-              content: [value],
-            };
-          }),
+          content: [content],
         },
       };
     });

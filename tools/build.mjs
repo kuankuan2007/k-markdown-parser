@@ -18,7 +18,7 @@ async function dfsFiles(now) {
   }
 }
 
-(async () => {
+export async function build ()  {
   const rootPath = path.resolve(process.cwd());
   const outdir = path.resolve(rootPath, './dist');
 
@@ -38,5 +38,9 @@ async function dfsFiles(now) {
     target: 'node21',
     format: 'esm',
     outExtension: { '.js': '.js' },
+    sourcemap: true,
   });
+};
+(async () => {
+  await build();
 })();
