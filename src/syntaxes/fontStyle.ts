@@ -1,6 +1,4 @@
-import {
-  KMarkdownSyntax,
-} from '../types.js';
+import { KMarkdownSyntax } from '../types.js';
 
 const KMarkdownDeleteLineSyntax: KMarkdownSyntax = {
   name: 'delete-line',
@@ -50,8 +48,4 @@ const KMarkdownSubscriptSyntax: KMarkdownSyntax = {
     });
   },
 };
-export {
-  KMarkdownDeleteLineSyntax,
-  KMarkdownSuperscriptSyntax,
-  KMarkdownSubscriptSyntax,
-};
+export { KMarkdownDeleteLineSyntax, KMarkdownSuperscriptSyntax, KMarkdownSubscriptSyntax };

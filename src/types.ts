@@ -22,14 +22,13 @@ export interface KMarkdownNodeCreateOptions {
 export class KMarkdownNode<T extends Record<string, any> = Record<string, any>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: symbol]: any;
-  content: KMarkdownNodeContent;
-  args: T;
   _canParseSubContent: boolean = true;
   readonly id: string = '_SOURCE_CLASS';
-  constructor(content: KMarkdownNodeContent, args: T) {
-    this.content = content;
-    this.args = args;
-  }
+  constructor(
+    public content: KMarkdownNodeContent,
+    public args: T,
+    public createBy: string | null
+  ) {}
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type KMarkdownNodeContent = (string | KMarkdownNode<Record<string, any>>)[];

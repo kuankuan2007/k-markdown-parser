@@ -5,9 +5,7 @@ const KMarkdownQuoteSyntax: KMarkdownSyntax = {
   matcher(text) {
     const matcher = /^\s*>\s*.+/gms;
     return [...text.matchAll(matcher)].map((value) => {
-      const content = value[0]
-        .replaceAll(/^\s*>[^\S\n]*/gm, '')
-        .replaceAll(/^\s*$/gm, '')
+      const content = value[0].replaceAll(/^\s*>[^\S\n]*/gm, '').replaceAll(/^\s*$/gm, '');
       return {
         startIndex: value.index,
         length: value[0].length,

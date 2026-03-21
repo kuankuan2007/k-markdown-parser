@@ -4,6 +4,7 @@
     "useDefineForClassFields": true,
     "module": "Node16",
     "lib": ["ESNext"],
+    "types": ["node"],
     "skipLibCheck": true,
     "moduleDetection": "force",
 
@@ -19,13 +20,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "emitDeclarationOnly": false,
+    "emitDeclarationOnly": true,
+    "declarationDir": "types",
 
-    
+    "rootDir": "./",
     "outDir": "dist",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "./*.ts", "test/**/*.ts"]
 }

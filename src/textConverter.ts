@@ -36,6 +36,7 @@ export function inner2Markdown(text: string, options: FullOption) {
     ),
     options.replacerTagStart
   );
+  return text;
 }
 
 export function inner2Plant(text: string, options: FullOption) {

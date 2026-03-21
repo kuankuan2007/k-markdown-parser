@@ -6,7 +6,11 @@ import { FullOption, Option } from './types.js';
 import { KMarkdownUnorderedListSyntax, KMarkdownOrderedListSyntax } from './syntaxes/list.js';
 import KMarkdownXMLBlockSyntax from './syntaxes/xml.js';
 import KMarkdownImageSyntax from './syntaxes/image.js';
-import { KMarkdownLinkSyntax, KMarkdownAutoLinkSyntax, KMarkdownRawLinkSyntax } from './syntaxes/link.js';
+import {
+  KMarkdownLinkSyntax,
+  KMarkdownAutoLinkSyntax,
+  KMarkdownRawLinkSyntax,
+} from './syntaxes/link.js';
 import type { KMarkdownNode } from './types.js';
 import * as coreNodes from './nodes/core.js';
 

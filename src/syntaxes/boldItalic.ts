@@ -243,7 +243,7 @@ function buildSyntaxMatchResult(text: string, pairs: Pair[]): KMarkdownSyntaxMat
           name: i.type,
           content: buildContentFromRange(text, i),
         },
-      } as KMarkdownSyntaxMatchResult)
+      }) as KMarkdownSyntaxMatchResult
   );
 
   return result;

@@ -62,5 +62,5 @@ const KMarkdownRawLinkSyntax: KMarkdownSyntax = {
       };
     });
   },
-}
+};
 export { KMarkdownLinkSyntax, KMarkdownRawLinkSyntax, KMarkdownAutoLinkSyntax };

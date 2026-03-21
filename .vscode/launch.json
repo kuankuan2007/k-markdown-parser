@@ -6,10 +6,16 @@
   "configurations": [
     {
       "name": "Run Test",
-      "program": "${workspaceFolder}/tools/test.mjs",
       "request": "launch",
-      "skipFiles": ["<node_internals>/**"],
+      "runtimeArgs": [
+        "run",
+        "test"
+      ],
+      "runtimeExecutable": "npm",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
       "type": "node"
-    }
+    },
   ]
 }

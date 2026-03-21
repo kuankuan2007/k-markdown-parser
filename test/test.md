@@ -242,3 +242,9 @@ https://kuankuan.site/
 | Header    |    Title    | Here's this |
 | Paragraph |    Text     |    And more |
 | **bold**  | text        | ~~strikethrough~~ |
+
+行内公式$E=mc^2$
+
+块公式:
+
+$$E=\sqrt{mc^2+pc}$$
