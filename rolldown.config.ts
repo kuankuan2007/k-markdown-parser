@@ -53,7 +53,8 @@ export default defineConfig([
           entryFileNames: i === 'esm' ? '[name].mjs' : '[name].cjs',
           banner: (info) => {
             const fileName = info.fileName;
-            if (fileName === 'index.js') {
+
+            if (/index\.(mjs|cjs)$/.test(fileName)) {
               return banner;
             }
             return `/*!
