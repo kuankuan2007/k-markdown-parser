@@ -1,6 +1,7 @@
-import { defineConfig } from 'rolldown';
+import { defineConfig, RolldownOptions } from 'rolldown';
 import path from 'path';
 import fs from 'fs';
+import { babel } from '@rollup/plugin-babel';
 
 const packageJson = JSON.parse(
   fs.readFileSync(path.resolve(process.cwd(), './package.json'), 'utf-8')
@@ -29,39 +30,65 @@ async function dfsFiles(now: string): Promise<string[]> {
     return [now];
   }
 }
-async function buildInputOptions() {
+async function buildInputOptions(suffix: string = '') {
   const files = await dfsFiles('src');
   const result: Record<string, string> = {};
   for (const file of files) {
     const relativePath = path.relative(path.resolve(process.cwd(), 'src'), file);
-    const outputPath = `${relativePath.replace(/\.ts$/, '').replace(/\\/g, '/')}`;
+    const outputPath = `${relativePath.replace(/\.ts$/, '').replace(/\\/g, '/')}${suffix}`;
     result[outputPath] = file;
   }
   return result;
 }
 export default defineConfig([
-  {
-    input: await buildInputOptions(),
-    output: {
-      dir: 'dist',
-      sourcemap: true,
-      cleanDir: true,
-      format: 'esm',
-      banner: (info) => {
-        const fileName = info.fileName;
-        if (fileName === 'index.js') {
-          return banner;
-        }
-        return `/*!
+  ...(await Promise.all(
+    (['esm', 'cjs'] as const).map(
+      async (i, index): Promise<RolldownOptions> => ({
+        input: await buildInputOptions(),
+        output: {
+          dir: 'dist',
+          sourcemap: true,
+          format: i,
+          cleanDir: index === 0,
+          entryFileNames: i === 'esm' ? '[name].mjs' : '[name].cjs',
+          banner: (info) => {
+            const fileName = info.fileName;
+            if (fileName === 'index.js') {
+              return banner;
+            }
+            return `/*!
  * @package @kuankuan/k-markdown-parser
  * @copyright (c) ${new Date().getFullYear()} kuankuan2007
  * @file ${fileName}
  */`;
-      },
-    },
-  },
+          },
+        },
+      })
+    )
+  )),
   {
     input: 'src/index.ts',
+    plugins: [
+      babel({
+        babelHelpers: 'bundled',
+        extensions: ['.ts', '.js', '.mjs', '.cjs'],
+        exclude: /node_modules/,
+        babelrc: false,
+        configFile: false,
+        presets: [
+          [
+            '@babel/preset-env',
+            {
+              targets: { ie: '11' },
+              useBuiltIns: false,
+              modules: false,
+              bugfixes: true,
+            },
+          ],
+          ['@babel/preset-typescript', { onlyRemoveTypeImports: true }],
+        ],
+      }),
+    ],
     output: {
       file: 'dist/index.iife.min.js',
       format: 'iife',

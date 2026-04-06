@@ -8,7 +8,7 @@ import {
   Option,
 } from './types.js';
 
-class KMarkdownParser {
+export class KMarkdownParser {
   private options: FullOption;
   constructor(options?: Option) {
     this.options = createFullOptions(options || {});
@@ -103,6 +103,3 @@ class KMarkdownParser {
     return inner2Plant(text, this.options);
   }
 }
-export default KMarkdownParser;
-
-export * from './types.js';

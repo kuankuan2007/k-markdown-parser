@@ -20,14 +20,19 @@
   },
   "author": "kuankuan",
   "license": "MulanPSL-2.0",
-  "types": "dist/index.d.ts",
+  "types": "types/index.d.ts",
   "devDependencies": {
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "@babel/preset-typescript": "^7.28.5",
     "@eslint/js": "^10.0.1",
+    "@rollup/plugin-babel": "^7.0.0",
     "@types/node": "^25.5.0",
     "esbuild": "^0.27.4",
     "eslint": "^10.1.0",
     "prettier": "^3.8.1",
     "rolldown": "^1.0.0-rc.10",
+    "rollup": "^4.60.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.57.1"
   },
@@ -43,14 +48,17 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "default": "./dist/index.js",
-      "types": "./types/index.d.ts"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.mjs",
+      "types": "./types/index.d.ts",
+      "iife": "./dist/index.iife.min.js"
     },
     "./*": {
-      "types": "./dist/*.d.ts",
-      "import": "./dist/*.js",
-      "default": "./dist/*.js"
+      "import": "./dist/*.mjs",
+      "require": "./dist/*.cjs",
+      "default": "./dist/*.mjs",
+      "types": "./types/*.d.ts"
     }
   },
   "unpkg": "dist/index.iife.min.js",
