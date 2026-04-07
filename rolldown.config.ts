@@ -1,11 +1,15 @@
-import { defineConfig, RolldownOptions } from 'rolldown';
-import path from 'path';
+import { defineConfig, RolldownOptions, Plugin } from 'rolldown';
 import fs from 'fs';
 import { babel } from '@rollup/plugin-babel';
+import path from 'node:path';
+import { promisify } from 'node:util';
+import child_process from 'node:child_process';
 
+const exec = promisify(child_process.exec);
 const packageJson = JSON.parse(
   fs.readFileSync(path.resolve(process.cwd(), './package.json'), 'utf-8')
 );
+
 const banner = `/*!
  * @name k-markdown-parser
  * @package @kuankuan/k-markdown-parser
@@ -40,11 +44,53 @@ async function buildInputOptions(suffix: string = '') {
   }
   return result;
 }
+
+
+function copyDtsPlugin(): Plugin {
+  return {
+    name: 'copy-dts',
+    async writeBundle() {
+      console.log('[copy-dts] start make .d.ts files');
+      const typesDir = path.resolve(process.cwd(), 'types');
+      const copyFrom = path.resolve(typesDir, 'src');
+      const distDir = path.resolve(process.cwd(), 'dist');
+
+      if (fs.existsSync(typesDir)) {
+        await fs.promises.rm(typesDir, { recursive: true, force: true });
+      }
+      await fs.promises.mkdir(typesDir, { recursive: true });
+
+      await exec('npx tsc');
+      console.log('[copy-dts] tsc done');
+
+      if (!fs.existsSync(typesDir)) {
+        console.warn('[copy-dts] types/src not found, please run tsc first');
+        return;
+      }
+      async function copyDts(src: string, dest: string) {
+        await fs.promises.mkdir(dest, { recursive: true });
+        for (const entry of await fs.promises.readdir(src, { withFileTypes: true })) {
+          const srcPath = path.join(src, entry.name);
+          const destPath = path.join(dest, entry.name);
+          if (entry.isDirectory()) {
+            await copyDts(srcPath, destPath);
+          } else if (entry.name.endsWith('.d.ts')) {
+            await fs.promises.copyFile(srcPath, destPath);
+          }
+        }
+      }
+      await copyDts(copyFrom, distDir);
+      console.log('[copy-dts] .d.ts files copied to dist/');
+    },
+  };
+}
+
 export default defineConfig([
   ...(await Promise.all(
     (['esm', 'cjs'] as const).map(
       async (i, index): Promise<RolldownOptions> => ({
         input: await buildInputOptions(),
+        plugins: i === 'cjs' ? [copyDtsPlugin()] : [],
         output: {
           dir: 'dist',
           sourcemap: true,
