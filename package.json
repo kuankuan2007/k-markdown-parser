@@ -51,14 +51,14 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "default": "./dist/index.mjs",
-      "types": "./types/index.d.ts",
+      "types": "./dist/index.d.ts",
       "iife": "./dist/index.iife.min.js"
     },
     "./*": {
       "import": "./dist/*.mjs",
       "require": "./dist/*.cjs",
       "default": "./dist/*.mjs",
-      "types": "./types/*.d.ts"
+      "types": "./dist/*.d.ts"
     }
   },
   "unpkg": "dist/index.iife.min.js",
