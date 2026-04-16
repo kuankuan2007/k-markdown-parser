@@ -1,3 +1,5 @@
+import { nodeCanParseSubContent, syntaxCanParseSubContent } from './symbols.js';
+
 export interface KMarkdownSyntax {
   name: string;
   matcher: (
@@ -17,24 +19,41 @@ export interface KMarkdownNodeCreateOptions {
   content: KMarkdownSyntaxMatchResultContent;
   name: string;
   option?: Record<string, unknown>;
+  canParseSubContent?: boolean;
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class KMarkdownNode<T extends Record<string, any> = Record<string, any>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: symbol]: any;
-  _canParseSubContent: boolean = true;
+  readonly [nodeCanParseSubContent]: boolean = true;
+  readonly [syntaxCanParseSubContent]: undefined | boolean = void 0;
   readonly id: string = '_SOURCE_CLASS';
   constructor(
     public content: KMarkdownNodeContent,
     public args: T,
-    public createBy: string | null
-  ) {}
+    public createBy: string | null,
+    canParseSubContent: boolean | undefined = undefined
+  ) {
+    this[syntaxCanParseSubContent] = canParseSubContent;
+  }
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type KMarkdownNodeContent = (string | KMarkdownNode<Record<string, any>>)[];
 
+export type SyntaxesGroup = {
+  name: string;
+  syntaxes: KMarkdownSyntax[];
+  next?: string | undefined | null | (string | null)[];
+};
+
+export type BuiltSyntaxesGroup = {
+  name: string;
+  syntaxes: KMarkdownSyntax[];
+  nextGroups: BuiltSyntaxesGroup[];
+};
+
 export type Option = Readonly<{
-  syntaxes?: Readonly<Readonly<KMarkdownSyntax[]>[]>;
+  syntaxes?: Readonly<SyntaxesGroup[]>;
   replacerTagStart?: string;
   replacerTagMap?: Readonly<{
     [key: symbol]: string;

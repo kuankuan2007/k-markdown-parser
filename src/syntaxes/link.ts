@@ -3,7 +3,7 @@ import { KMarkdownSyntax } from '../types.js';
 const KMarkdownLinkSyntax: KMarkdownSyntax = {
   name: 'link',
   matcher(text) {
-    const matcher = /\[\s*([^\]]+)\s*\]\s*\(([^")]+)\s*(?:"([^"]+)")?\s*\)/g;
+    const matcher = /\[\s*(.+)\s*\]\s*\(([^<][^")]*|<[^>]+>)\s*(?:"([^"]+)")?\s*\)/g;
     return [...text.matchAll(matcher)].map((value) => {
       return {
         startIndex: value.index,
@@ -12,7 +12,7 @@ const KMarkdownLinkSyntax: KMarkdownSyntax = {
           name: 'link',
           content: [value[1]],
           option: {
-            href: value[2],
+            href: value[2].startsWith('<') ? value[2].substring(1, value[2].length - 1) : value[2],
             title: value[3],
           },
         },
@@ -27,7 +27,7 @@ const KMarkdownAutoLinkSyntax: KMarkdownSyntax = {
       return [];
     }
     const matcher =
-      /(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/g;
+      /(((ht|f)tps?):\/\/)([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/g;
     return [...text.matchAll(matcher)].map((value) => {
       return {
         startIndex: value.index,
@@ -35,6 +35,7 @@ const KMarkdownAutoLinkSyntax: KMarkdownSyntax = {
         node: {
           name: 'link',
           content: [value[0]],
+          canParseSubContent: false,
           option: {
             href: value[0],
           },

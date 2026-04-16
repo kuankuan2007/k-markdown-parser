@@ -1,17 +1,23 @@
-import { createFullOptions } from './options.js';
+import { buildSyntaxesGroup, createFullOptions } from './options.js';
+import { isParsedTag, nodeCanParseSubContent, syntaxCanParseSubContent } from './symbols.js';
 import { inner2Markdown, markdown2Inner, inner2Plant } from './textConverter.js';
 import {
+  BuiltSyntaxesGroup,
   FullOption,
   KMarkdownNode,
   KMarkdownNodeContent,
   KMarkdownNodeCreateOptions,
+  KMarkdownSyntax,
+  KMarkdownSyntaxMatchResult,
   Option,
 } from './types.js';
 
 export class KMarkdownParser {
-  private options: FullOption;
+  private readonly options: Readonly<FullOption>;
+  private readonly builtSyntaxGroups: readonly BuiltSyntaxesGroup[] = [];
   constructor(options?: Option) {
     this.options = createFullOptions(options || {});
+    this.builtSyntaxGroups = buildSyntaxesGroup(this.options.syntaxes);
   }
   parse(text: string) {
     text = this.markdown2Inner(text);
@@ -25,61 +31,104 @@ export class KMarkdownParser {
       },
       null
     );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const dfsParse = (node: KMarkdownNode<Record<string, any>>, startSyntaxLevel: number = 0) => {
-      const isParsedTag = Symbol('isParsedTag');
-      for (
-        let syntaxLevel = startSyntaxLevel;
-        syntaxLevel < this.options.syntaxes.length;
-        syntaxLevel++
-      ) {
-        for (const syntax of this.options.syntaxes[syntaxLevel]) {
-          const newContent: KMarkdownNodeContent = [];
-          for (const i of node.content) {
-            if (typeof i !== 'string') {
-              newContent.push(i);
+    const dfsParse = (node: KMarkdownNode, syntaxGroups: readonly BuiltSyntaxesGroup[]) => {
+      for (const syntaxGroup of syntaxGroups) {
+        const newContent: KMarkdownNodeContent = [];
+        for (const now of node.content) {
+          if (typeof now !== 'string') {
+            newContent.push(now);
+            continue;
+          }
+          type ResultRecord = { result: KMarkdownSyntaxMatchResult; syntax: KMarkdownSyntax };
+          const results: ResultRecord[][] = [];
+          for (const syntax of syntaxGroup.syntaxes) {
+            results.push(
+              syntax.matcher(now, this.options, node).map((result) => ({
+                result,
+                syntax,
+                str: now.substring(result.startIndex, result.startIndex + result.length),
+              }))
+            );
+          }
+
+          const sortedResults = results
+            .flat()
+            .sort((a, b) => a.result.startIndex - b.result.startIndex);
+          let nowStart: undefined | number = undefined,
+            nowEnd = 0,
+            selectedResult: undefined | ResultRecord = void 0;
+          const selectedResults: ResultRecord[] = [];
+          for (const nowResult of sortedResults) {
+            if (nowStart === undefined) {
+              nowStart = nowResult.result.startIndex;
+              nowEnd = nowResult.result.startIndex + nowResult.result.length;
+              selectedResult = nowResult;
               continue;
             }
-            const result = syntax.matcher(i, this.options, node);
-            result.sort((a, b) => a.startIndex - b.startIndex);
-            let lastIndex = 0;
-            for (const match of result) {
-              if (match.startIndex < lastIndex) {
-                throw new Error('Syntax parse error, there is overlap in the nodes being matched');
+            if (nowResult.result.startIndex > nowEnd) {
+              if (selectedResult) {
+                selectedResults.push(selectedResult);
               }
-              newContent.push(i.substring(lastIndex, match.startIndex));
-              if (match.node) {
-                newContent.push(this.createNode(match.node, syntax.name));
-              } else {
-                newContent.push(i.substring(match.startIndex, match.startIndex + match.length));
-              }
-              lastIndex = match.startIndex + match.length;
+              nowStart = nowResult.result.startIndex;
+              nowEnd = nowResult.result.startIndex + nowResult.result.length;
+              selectedResult = nowResult;
+              continue;
             }
-            newContent.push(i.substring(lastIndex));
+            if (nowResult.result.startIndex + nowResult.result.length > nowEnd) {
+              if (nowResult.result.startIndex === nowStart) {
+                nowEnd = nowResult.result.startIndex + nowResult.result.length;
+                selectedResult = nowResult;
+              }
+            }
           }
-          node.content = newContent
-            .filter((i) => {
-              if (typeof i === 'string') {
-                return /\S/.test(i);
-              } else {
-                if (i._canParseSubContent && !i[isParsedTag]) {
-                  i[isParsedTag] = true;
-                  dfsParse(i, syntaxLevel);
-                }
-                return true;
-              }
-            })
-            .map((i) => {
-              if (typeof i === 'string') {
-                return i.replace(/^\n*/g, '');
-              } else {
-                return i;
-              }
-            });
+          if (selectedResult) {
+            selectedResults.push(selectedResult);
+          }
+          console.log(selectedResults);
+          let lastIndex = 0;
+          for (const record of selectedResults) {
+            newContent.push(now.substring(lastIndex, record.result.startIndex));
+            if (record.result.node) {
+              newContent.push(this.createNode(record.result.node, record.syntax.name));
+            } else {
+              newContent.push(
+                now.substring(
+                  record.result.startIndex,
+                  record.result.startIndex + record.result.length
+                )
+              );
+            }
+            lastIndex = record.result.startIndex + record.result.length;
+          }
+          newContent.push(now.substring(lastIndex));
         }
+        node.content = newContent
+          .filter((i) => {
+            if (typeof i === 'string') {
+              return /\S/.test(i);
+            } else {
+              if (
+                (i[syntaxCanParseSubContent] === void 0
+                  ? i[nodeCanParseSubContent]
+                  : i[syntaxCanParseSubContent]) &&
+                !i[isParsedTag]
+              ) {
+                i[isParsedTag] = true;
+                dfsParse(i, syntaxGroup.nextGroups);
+              }
+              return true;
+            }
+          })
+          .map((i) => {
+            if (typeof i === 'string') {
+              return i.replace(/^\n*/g, '');
+            } else {
+              return i;
+            }
+          });
       }
     };
-    dfsParse(root);
+    dfsParse(root, this.builtSyntaxGroups);
     return root;
   }
   private createNode(option: KMarkdownNodeCreateOptions, createBy: string | null) {
@@ -91,7 +140,12 @@ export class KMarkdownParser {
         nodeContent.push(this.createNode(i, createBy));
       }
     }
-    return new this.options.nodeMap[option.name](nodeContent, option.option || {}, createBy);
+    return new this.options.nodeMap[option.name](
+      nodeContent,
+      option.option || {},
+      createBy,
+      option.canParseSubContent
+    );
   }
   markdown2Inner(text: string) {
     return markdown2Inner(text, this.options);

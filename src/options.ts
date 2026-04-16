@@ -11,7 +11,7 @@ import {
   KMarkdownAutoLinkSyntax,
   KMarkdownRawLinkSyntax,
 } from './syntaxes/link.js';
-import type { KMarkdownNode } from './types.js';
+import type { BuiltSyntaxesGroup, KMarkdownNode, SyntaxesGroup } from './types.js';
 import * as coreNodes from './nodes/core.js';
 
 import {
@@ -30,38 +30,58 @@ import { KMarkdownAutoEmailSyntax, KMarkdownRawEmailSyntax } from './syntaxes/em
 
 export const tagStarterSelfReplaceName = Symbol('tagStarterSelfReplaceName');
 export type TagStarterSelfReplaceName = typeof tagStarterSelfReplaceName;
-export const defaultSyntaxes = [
-  [KMarkdownCodeBlockSyntax, KMarkdownLatexBlockSyntax, KMarkdownXMLBlockSyntax],
-  [
-    KMarkdownWellTitleSyntax,
-    KMarkdownGaplineTitleSyntax,
-    KMarkdownLineBetweenSyntax,
-    KMarkdownSegmentationSyntax,
-  ],
-  [
-    KMarkdownQuoteSyntax,
-    KMarkdownTableSyntax,
-    KMarkdownTaskListSyntax,
-    KMarkdownUnorderedListSyntax,
-    KMarkdownOrderedListSyntax,
-    KMarkdownParagraphSyntax,
-  ],
-  [
-    KMarkdownCodeInlineSyntax,
-    KMarkdownLatexInlineSyntax,
-    KMarkdownBoldItalicSyntax,
-    KMarkdownDeleteLineSyntax,
-    KMarkdownSubscriptSyntax,
-    KMarkdownSuperscriptSyntax,
-    KMarkdownImageSyntax,
-    KMarkdownLinkSyntax,
-    KMarkdownRawEmailSyntax,
-    KMarkdownRawLinkSyntax,
-    KMarkdownAutoEmailSyntax,
-    KMarkdownAutoLinkSyntax,
-    KMarkdownEmojiSyntax,
-  ],
+
+export const defaultSyntaxes: SyntaxesGroup[] = [
+  {
+    name: 'block',
+    syntaxes: [KMarkdownCodeBlockSyntax, KMarkdownLatexBlockSyntax],
+    next: null,
+  },
+  {
+    name: 'post-block',
+    syntaxes: [KMarkdownWellTitleSyntax, KMarkdownGaplineTitleSyntax, KMarkdownLineBetweenSyntax],
+    next: 'inline',
+  },
+  {
+    name: 'pre-paragraph',
+    syntaxes: [KMarkdownSegmentationSyntax],
+  },
+  {
+    name: 'paragraph',
+    syntaxes: [
+      KMarkdownQuoteSyntax,
+      KMarkdownTableSyntax,
+      KMarkdownTaskListSyntax,
+      KMarkdownUnorderedListSyntax,
+      KMarkdownOrderedListSyntax,
+      KMarkdownParagraphSyntax,
+    ],
+  },
+  {
+    name: 'post-paragraph',
+    syntaxes: [KMarkdownParagraphSyntax],
+  },
+  {
+    name: 'inline',
+    syntaxes: [
+      KMarkdownCodeInlineSyntax,
+      KMarkdownLatexInlineSyntax,
+      KMarkdownBoldItalicSyntax,
+      KMarkdownDeleteLineSyntax,
+      KMarkdownSubscriptSyntax,
+      KMarkdownSuperscriptSyntax,
+      KMarkdownImageSyntax,
+      KMarkdownLinkSyntax,
+      KMarkdownRawEmailSyntax,
+      KMarkdownRawLinkSyntax,
+      KMarkdownAutoEmailSyntax,
+      KMarkdownAutoLinkSyntax,
+      KMarkdownEmojiSyntax,
+      KMarkdownXMLBlockSyntax,
+    ],
+  },
 ] as const;
+
 export const defaultReplacerTagMap = {
   [tagStarterSelfReplaceName]: 'SE',
   '*': 'AS',
@@ -137,4 +157,44 @@ export function createFullOptions(options: Option): FullOption {
     ...defaultOptions,
     ...options,
   };
+}
+export function buildSyntaxesGroup(
+  syntaxGroups: readonly SyntaxesGroup[]
+): readonly BuiltSyntaxesGroup[] {
+  const result = syntaxGroups.map(
+    (i) => ({ ...i, nextGroups: [] }) as BuiltSyntaxesGroup & SyntaxesGroup
+  );
+  function findTarget(name: string) {
+    const target = result.findIndex((j) => j.name === name);
+    if (target === -1) throw new Error(`Next group ${name} not found`);
+    return target;
+  }
+  for (const i of result) {
+    const res: BuiltSyntaxesGroup[] = [];
+    if (typeof i.next === 'string' || i.next === void 0) {
+      res.push(...result.slice(findTarget(i.next ?? i.name)));
+    } else if (typeof i.next === 'object' && i.next !== null) {
+      for (const j of i.next) {
+        if (j === null) {
+          if (res.length === 0) {
+            throw new Error(`"null" cannot be the first item of next array in ${i.name}`);
+          }
+          res.push(...result.slice(findTarget(res[res.length - 1].name) + 1));
+        } else {
+          res.push(result[findTarget(j)]);
+        }
+      }
+    }
+    const uniqueRes: BuiltSyntaxesGroup[] = [];
+    const seen = new Set<string>();
+    for (const j of res) {
+      if (seen.has(j.name)) {
+        continue;
+      }
+      seen.add(j.name);
+      uniqueRes.push(j);
+    }
+    i.nextGroups = uniqueRes;
+  }
+  return result;
 }

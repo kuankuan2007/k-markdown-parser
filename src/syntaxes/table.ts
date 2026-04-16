@@ -3,9 +3,10 @@ import { KMarkdownSyntax, KMarkdownSyntaxMatchResult } from '../types.js';
 export const KMarkdownTableSyntax: KMarkdownSyntax = {
   name: 'table',
   matcher(text) {
-    const matcher = /^\|(?:[^|]+\|)+\n\|(?:\s*:?-{3,}:?\s*\|)+\n(?:\|(?:[^|]+\|)+(?:\n|$))+/gms;
+    const matcher = /^\|(?:[^|]+\|)+\n\|(?:\s*:?-{3,}:?\s*\|)+(?:\n\|(?:[^|]+\|)+(?:\n|$))*/gms;
     return [...text.matchAll(matcher)]
       .map((value) => {
+        console.log(value);
         const lines = value[0]
           .split('\n')
           .map((line) => line.trim())

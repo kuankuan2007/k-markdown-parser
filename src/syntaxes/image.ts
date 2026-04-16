@@ -3,7 +3,7 @@ import { KMarkdownSyntax } from '../types.js';
 const KMarkdownImageSyntax: KMarkdownSyntax = {
   name: 'image',
   matcher(text) {
-    const matcher = /!\[\s*([^\]]+)\s*\]\s*\(([^")]+)\s*(?:"([^"]+)")?\s*\)/g;
+    const matcher = /!\[\s*([^\]]*)\s*\]\s*\(([^<][^")]*|<[^>]+>)\s*(?:"([^"]+)")?\s*\)/g;
     return [...text.matchAll(matcher)].map((value) => {
       return {
         startIndex: value.index,
@@ -12,7 +12,7 @@ const KMarkdownImageSyntax: KMarkdownSyntax = {
           name: 'image',
           content: [],
           option: {
-            src: value[2],
+            src: value[2].startsWith("<") ? value[2].substring(1, value[2].length - 1) : value[2],
             alt: value[1],
             title: value[3],
           },

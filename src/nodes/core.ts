@@ -1,3 +1,4 @@
+import { nodeCanParseSubContent } from '@/symbols.js';
 import { FullOption, KMarkdownNode } from '../types.js';
 
 export class KMarkdownRootNode extends KMarkdownNode<{ createOption: FullOption }> {
@@ -13,19 +14,19 @@ export class KMarkdownTitleNode extends KMarkdownNode<{
 export class KMarkdownCodeBlockNode extends KMarkdownNode<{
   language?: string;
 }> {
-  _canParseSubContent = false;
+  [nodeCanParseSubContent] = false;
   id = 'code-block';
 }
 export class KMarkdownCodeInlineNode extends KMarkdownNode<Record<string, never>> {
-  _canParseSubContent = false;
+  [nodeCanParseSubContent] = false;
   id = 'code-inline';
 }
 export class KMarkdownLatexBlockNode extends KMarkdownNode<Record<string, never>> {
-  _canParseSubContent = false;
+  [nodeCanParseSubContent] = false;
   id = 'latex-block';
 }
 export class KMarkdownLatexInlineNode extends KMarkdownNode<Record<string, never>> {
-  _canParseSubContent = false;
+  [nodeCanParseSubContent] = false;
   id = 'latex-inline';
 }
 export class KMarkdownQuoteBlockNode extends KMarkdownNode<Record<string, never>> {
@@ -68,7 +69,6 @@ export class KMarkdownLinkNode extends KMarkdownNode<{
   href: string;
   alt: string;
 }> {
-  _canParseSubContent = false;
   id = 'link';
 }
 export class KMarkdownItalicNode extends KMarkdownNode<Record<string, never>> {
@@ -85,13 +85,13 @@ export class KMarkdownDeleteLineNode extends KMarkdownNode<Record<string, never>
 }
 export class KMarkdownLineBetweenNode extends KMarkdownNode<Record<string, never>> {
   id = 'line-between';
-  _canParseSubContent = false;
+  [nodeCanParseSubContent] = false;
 }
 export class KMarkdownEmojiNode extends KMarkdownNode<{
   name: string;
 }> {
   id = 'emoji';
-  _canParseSubContent = false;
+  [nodeCanParseSubContent] = false;
 }
 export class KMarkdownTaskListNode extends KMarkdownNode<Record<string, never>> {
   id = 'task-list';
@@ -117,6 +117,6 @@ export class KMarkdownTableCellNode extends KMarkdownNode<{
 export class KMarkdownEmailNode extends KMarkdownNode<{
   email: string;
 }> {
-  _canParseSubContent = false;
+  [nodeCanParseSubContent] = false;
   id = 'email';
 }
