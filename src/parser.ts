@@ -84,7 +84,7 @@ export class KMarkdownParser {
           if (selectedResult) {
             selectedResults.push(selectedResult);
           }
-          console.log(selectedResults);
+          DEBUG: console.log(selectedResults);
           let lastIndex = 0;
           for (const record of selectedResults) {
             newContent.push(now.substring(lastIndex, record.result.startIndex));

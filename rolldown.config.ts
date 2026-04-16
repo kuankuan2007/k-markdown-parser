@@ -91,6 +91,9 @@ export default defineConfig([
       async (i, index): Promise<RolldownOptions> => ({
         input: await buildInputOptions(),
         plugins: i === 'cjs' ? [copyDtsPlugin()] : [],
+        transform: {
+          dropLabels: ['DEBUG'],
+        },
         output: {
           dir: 'dist',
           sourcemap: true,
@@ -136,6 +139,9 @@ export default defineConfig([
         ],
       }),
     ],
+    transform: {
+      dropLabels: ['DEBUG'],
+    },
     output: {
       file: 'dist/index.iife.min.js',
       format: 'iife',

@@ -6,7 +6,7 @@ export const KMarkdownTableSyntax: KMarkdownSyntax = {
     const matcher = /^\|(?:[^|]+\|)+\n\|(?:\s*:?-{3,}:?\s*\|)+(?:\n\|(?:[^|]+\|)+(?:\n|$))*/gms;
     return [...text.matchAll(matcher)]
       .map((value) => {
-        console.log(value);
+        DEBUG: console.log(value);
         const lines = value[0]
           .split('\n')
           .map((line) => line.trim())
