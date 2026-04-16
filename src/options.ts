@@ -161,9 +161,7 @@ export function createFullOptions(options: Option): FullOption {
 export function buildSyntaxesGroup(
   syntaxGroups: readonly SyntaxesGroup[]
 ): readonly BuiltSyntaxesGroup[] {
-  const result = syntaxGroups.map(
-    (i) => ({ ...i, nextGroups: [] }) as BuiltSyntaxesGroup & SyntaxesGroup
-  );
+  const result = syntaxGroups.map((i) => ({ ...i, nextGroups: [] }) as BuiltSyntaxesGroup);
   function findTarget(name: string) {
     const target = result.findIndex((j) => j.name === name);
     if (target === -1) throw new Error(`Next group ${name} not found`);
@@ -194,7 +192,7 @@ export function buildSyntaxesGroup(
       seen.add(j.name);
       uniqueRes.push(j);
     }
-    i.nextGroups = uniqueRes;
+    (i as {nextGroups: BuiltSyntaxesGroup[]}).nextGroups = uniqueRes;
   }
   return result;
 }

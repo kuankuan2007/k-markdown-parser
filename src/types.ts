@@ -46,9 +46,7 @@ export type SyntaxesGroup = {
   next?: string | undefined | null | (string | null)[];
 };
 
-export type BuiltSyntaxesGroup = {
-  name: string;
-  syntaxes: KMarkdownSyntax[];
+export type BuiltSyntaxesGroup = SyntaxesGroup & {
   nextGroups: BuiltSyntaxesGroup[];
 };
 
