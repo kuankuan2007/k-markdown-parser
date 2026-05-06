@@ -3,7 +3,7 @@ import { KMarkdownSyntax } from '../types.js';
 const KMarkdownLinkSyntax: KMarkdownSyntax = {
   name: 'link',
   matcher(text) {
-    const matcher = /\[\s*(.+)\s*\]\s*\(([^<][^")]*|<[^>]+>)\s*(?:"([^"]+)")?\s*\)/g;
+    const matcher = /\[\s*([^\]]+)\s*\]\s*\(([^<][^")]*|<[^>]+>)\s*(?:"([^"]+)")?\s*\)/g;
     return [...text.matchAll(matcher)].map((value) => {
       return {
         startIndex: value.index,
