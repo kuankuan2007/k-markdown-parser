@@ -47,7 +47,6 @@ export function inner2Plant(text: string, options: FullOption) {
       new RegExp(`\\${options.replacerTagStart}${options.replacerTagMap[char]}`, 'g'),
       char
     );
-
   }
   target = target.replace(
     new RegExp(

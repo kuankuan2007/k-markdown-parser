@@ -12,7 +12,7 @@ const KMarkdownImageSyntax: KMarkdownSyntax = {
           name: 'image',
           content: [],
           option: {
-            src: value[2].startsWith("<") ? value[2].substring(1, value[2].length - 1) : value[2],
+            src: value[2].startsWith('<') ? value[2].substring(1, value[2].length - 1) : value[2],
             alt: value[1],
             title: value[3],
           },

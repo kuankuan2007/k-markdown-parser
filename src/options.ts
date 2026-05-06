@@ -192,7 +192,7 @@ export function buildSyntaxesGroup(
       seen.add(j.name);
       uniqueRes.push(j);
     }
-    (i as {nextGroups: BuiltSyntaxesGroup[]}).nextGroups = uniqueRes;
+    (i as { nextGroups: BuiltSyntaxesGroup[] }).nextGroups = uniqueRes;
   }
   return result;
 }
