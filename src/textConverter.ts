@@ -40,22 +40,23 @@ export function inner2Markdown(text: string, options: FullOption) {
 }
 
 export function inner2Plant(text: string, options: FullOption) {
-  text = text.replace('\n', '\r\n');
+  let target = text.replace('\n', '\r\n');
 
   for (const char in options.replacerTagMap) {
-    text = text.replace(
-      new RegExp(`\\${options.replacerTagStart}\\${options.replacerTagMap[char]}`, 'g'),
+    target = target.replace(
+      new RegExp(`\\${options.replacerTagStart}${options.replacerTagMap[char]}`, 'g'),
       char
     );
+
   }
-  text = text.replace(
+  target = target.replace(
     new RegExp(
-      `\\${options.replacerTagStart}\\${options.replacerTagMap[tagStarterSelfReplaceName]}`,
+      `\\${options.replacerTagStart}${options.replacerTagMap[tagStarterSelfReplaceName]}`,
       'g'
     ),
     options.replacerTagStart
   );
-  return text;
+  return target;
 }
 export function plantToInner(text: string, options: FullOption): string {
   text = text.replace('\r\n', '\n');
