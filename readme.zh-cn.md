@@ -48,7 +48,7 @@ console.log(root.content); // 子节点或字符串组成的数组
 所有解析节点均继承自 `KMarkdownNode<T>`，包含以下属性：
 
 | 属性 | 类型 | 说明 |
-|---|---|---|
+| --- | --- | --- |
 | `id` | `string` | 节点类型标识符（如 `"bold"`、`"title"`） |
 | `content` | `(string \| KMarkdownNode)[]` | 节点的子内容 |
 | `args` | `T` | 节点特有参数（如标题节点的 `{ level: 2 }`） |
@@ -57,7 +57,7 @@ console.log(root.content); // 子节点或字符串组成的数组
 ### 内置节点类型
 
 | 节点 ID | 类名 | `args` |
-|---|---|---|
+| --- | --- | --- |
 | `root` | `KMarkdownRootNode` | `{ createOption: FullOption }` |
 | `title` | `KMarkdownTitleNode` | `{ level: number, id?: string }` |
 | `paragraph` | `KMarkdownParagraphNode` | — |
@@ -163,11 +163,12 @@ type SyntaxesGroup = {
 默认解析流水线如下：
 
 | 语法组 | 包含语法 | 子内容解析起始组 |
-|---|---|---|
+| --- | --- | --- |
 | `block` | 代码块、LaTeX 块 | （不解析） |
 | `post-block` | `#` 标题、`---` 标题、分割线 | `inline` |
+| `quote` | 引用块 | （默认） |
 | `pre-paragraph` | 分段处理 | （默认） |
-| `paragraph` | 引用块、表格、任务列表、无序列表、有序列表、段落 | （默认） |
+| `paragraph` | 表格、任务列表、无序列表、有序列表、段落 | （默认） |
 | `post-paragraph` | 段落 | （默认） |
 | `inline` | 行内代码、行内 LaTeX、粗体/斜体、删除线、上下标、图片、链接、邮箱、Emoji、XML | （默认） |
 

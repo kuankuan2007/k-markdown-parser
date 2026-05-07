@@ -48,7 +48,7 @@ console.log(root.content); // array of child nodes / strings
 Every parsed node extends `KMarkdownNode<T>` and exposes the following properties:
 
 | Property | Type | Description |
-|---|---|---|
+| --- | --- | --- |
 | `id` | `string` | Node type identifier (e.g. `"bold"`, `"title"`) |
 | `content` | `(string \| KMarkdownNode)[]` | Child content of this node |
 | `args` | `T` | Node-specific arguments (e.g. `{ level: 2 }` for a title) |
@@ -57,7 +57,7 @@ Every parsed node extends `KMarkdownNode<T>` and exposes the following propertie
 ### Built-in Node Types
 
 | Node ID | Class | `args` |
-|---|---|---|
+| --- | --- | --- |
 | `root` | `KMarkdownRootNode` | `{ createOption: FullOption }` |
 | `title` | `KMarkdownTitleNode` | `{ level: number, id?: string }` |
 | `paragraph` | `KMarkdownParagraphNode` | — |
@@ -160,14 +160,17 @@ type SyntaxesGroup = {
   - `null` — no further sub-parsing
   - `(string | null)[]` — explicit list; a `null` entry expands to "all remaining groups after the last named one"
 
+`quote` is intentionally placed in its own group so that quote blocks can sub-parse their content starting from `pre-paragraph` (segmentation) as well. If `quote` lived inside `paragraph`, quote sub-parsing would start at `paragraph` by default and skip `pre-paragraph`.
+
 The default pipeline:
 
 | Group | Syntaxes | Sub-parsing starts at |
-|---|---|---|
+| --- | --- | --- |
 | `block` | code-block, latex-block | (none) |
 | `post-block` | `#` title, `---` title, line-between | `inline` |
+| `quote` | quote-block | (default) |
 | `pre-paragraph` | segmentation | (default) |
-| `paragraph` | quote, table, task-list, unordered-list, ordered-list, paragraph | (default) |
+| `paragraph` | table, task-list, unordered-list, ordered-list, paragraph | (default) |
 | `post-paragraph` | paragraph | (default) |
 | `inline` | code-inline, latex-inline, bold/italic, delete-line, subscript, superscript, image, link, email, emoji, xml | (default) |
 
