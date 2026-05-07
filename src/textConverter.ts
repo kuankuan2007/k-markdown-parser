@@ -5,7 +5,7 @@ export function markdown2Inner(text: string, options: FullOption) {
   text = text.replaceAll('\r\n', '\n');
   text = text.replaceAll('\r', '\n');
 
-  text = text.replace(
+  text = text.replaceAll(
     options.replacerTagStart,
     `${options.replacerTagStart}${options.replacerTagMap[tagStarterSelfReplaceName]}`
   );
@@ -17,7 +17,7 @@ export function markdown2Inner(text: string, options: FullOption) {
       `${options.replacerTagStart}${options.replacerTagMap[char]}`
     );
   }
-  text = text.replace('\\(.)', '$1');
+  text = text.replaceAll('\\(.)', '$1');
   return text;
 }
 export function inner2Markdown(text: string, options: FullOption) {
