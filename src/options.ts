@@ -43,13 +43,16 @@ export const defaultSyntaxes: SyntaxesGroup[] = [
     next: 'inline',
   },
   {
+    name: 'quote',
+    syntaxes: [KMarkdownQuoteSyntax],
+  },
+  {
     name: 'pre-paragraph',
     syntaxes: [KMarkdownSegmentationSyntax],
   },
   {
     name: 'paragraph',
     syntaxes: [
-      KMarkdownQuoteSyntax,
       KMarkdownTableSyntax,
       KMarkdownTaskListSyntax,
       KMarkdownUnorderedListSyntax,
