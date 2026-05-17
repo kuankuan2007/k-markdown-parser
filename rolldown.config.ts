@@ -45,7 +45,6 @@ async function buildInputOptions(suffix: string = '') {
   return result;
 }
 
-
 function copyDtsPlugin(): Plugin {
   return {
     name: 'copy-dts',
@@ -60,11 +59,11 @@ function copyDtsPlugin(): Plugin {
       }
       await fs.promises.mkdir(typesDir, { recursive: true });
 
-      await exec('npx tsc');
-      console.log('[copy-dts] tsc done');
+      await exec('npx tsgo');
+      console.log('[copy-dts] tsgo done');
 
       if (!fs.existsSync(typesDir)) {
-        console.warn('[copy-dts] types/src not found, please run tsc first');
+        console.warn('[copy-dts] types/src not found, please run tsgo first');
         return;
       }
       async function copyDts(src: string, dest: string) {
