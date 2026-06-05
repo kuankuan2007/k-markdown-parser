@@ -21,6 +21,9 @@ export class KMarkdownParser {
   }
   parse(text: string) {
     text = this.markdown2Inner(text);
+    if (!text.endsWith('\n')) {
+      text += '\n';
+    }
     const root = this.createNode(
       {
         name: 'root',
