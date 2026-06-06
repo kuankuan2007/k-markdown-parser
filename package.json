@@ -62,5 +62,6 @@
     }
   },
   "unpkg": "dist/index.iife.min.js",
-  "jsdelivr": "dist/index.iife.min.js"
+  "jsdelivr": "dist/index.iife.min.js",
+  "packageManager": "pnpm@11.5.2"
 }
