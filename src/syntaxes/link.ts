@@ -59,8 +59,7 @@ const KMarkdownAutoLinkSyntax: KMarkdownSyntax = {
 const KMarkdownRawLinkSyntax: KMarkdownSyntax = {
   name: 'raw-link',
   matcher(text) {
-    const matcher =
-      /<((((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?)>/g;
+    const matcher = /<([^>]+)>/g;
     return [...text.matchAll(matcher)].map((value) => {
       return {
         startIndex: value.index,
@@ -71,6 +70,7 @@ const KMarkdownRawLinkSyntax: KMarkdownSyntax = {
           option: {
             href: value[1],
           },
+          canParseSubContent: false,
         },
       };
     });
